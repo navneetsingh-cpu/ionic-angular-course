@@ -32,6 +32,7 @@ export class PlacesService {
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Paris_Night.jpg/1024px-Paris_Night.jpg',
         price: 189.99
       },
+
       {
         id: 'p3',
         title: 'The Foggy Palace',
