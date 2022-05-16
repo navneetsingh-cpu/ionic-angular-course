@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -9,12 +10,31 @@ import { AuthService } from './auth.service';
 })
 export class AuthPage implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  isLoading = false;
+  constructor(private authService: AuthService, private router: Router, private loadingCtrl: LoadingController) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
+
   onLogin() {
+
+    this.isLoading = true;
     this.authService.login();
-    this.router.navigateByUrl('/places/tabs/discover');
+
+    this.presentLoading();
+    setTimeout(() => {
+      this.isLoading = false;
+      this.router.navigateByUrl('/places/tabs/discover');
+      this.loadingCtrl.dismiss();
+    }, 1500);
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingCtrl.create({
+      keyboardClose: true, message: 'Logging in...',
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
   }
 }
